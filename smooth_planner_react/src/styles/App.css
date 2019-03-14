@@ -414,6 +414,9 @@ footer{
     margin-left: 0;
     width: 100%;
   }
+  .trip_title {
+    top: 60px;
+  }
   .card-body {
     padding-top: 10px;
     margin-top: 20px;
