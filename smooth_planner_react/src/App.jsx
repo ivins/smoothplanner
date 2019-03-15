@@ -32,24 +32,15 @@ class App extends Component {
     this.setState({ showModalShare: false });
   }
   
-
   // function to ask the database for the user's trips
   populateTrips = (userId) => {
-      axios.get(`http://localhost:3001/api/v1/users/${userId}.json`)
-      .then(response => {
-        this.setState({trips: response.data})
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  // componentDidMount() {
-componentWillMount() {    
-    if (this.state.current_user) {
-      this.populateTrips(this.state.current_user.id);
-    }
-    
+    axios.get(`http://localhost:3001/api/v1/users/${userId}.json`)
+    .then(response => {
+      this.setState({trips: response.data})
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 
   delete_trip = (trip) => {
@@ -73,7 +64,12 @@ componentWillMount() {
       })
     }
     this.populateTrips(id);
-    
+  }
+
+  componentDidMount() {   
+    if (this.state.current_user) {
+      this.populateTrips(this.state.current_user.id);
+    }
   }
   
   render() {
@@ -109,13 +105,8 @@ componentWillMount() {
         </header>
         <main>
           <Route path="/trips/:id" exact render={
-                          (props)=>
-                            <ItemsContainer {...props} trips={this.state.trips}
-                                                       delete_trip={this.delete_trip}
-                                                      //  populate_trips={this.populateTrips}
-                                                      //  current_user={this.state.current_user.id}
-                                                       />
-                          }/>
+            (props)=> <ItemsContainer {...props} trips={this.state.trips} delete_trip={this.delete_trip} />
+          }/>
           <Route path="/" exact render={()=> <Home user={this.state.current_user.name}/>}/>
         </main>
 

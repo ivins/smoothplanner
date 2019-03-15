@@ -2,11 +2,7 @@
 //  to completely integrate it, need to pass a helper function to save it in parent's state.
 import React from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
-
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 export default class LocationSearchInput extends React.Component {
   constructor(props) {
@@ -58,15 +54,9 @@ export default class LocationSearchInput extends React.Component {
             <div className="autocomplete-dropdown-container">
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
-                const className = suggestion.active
-                  ? 'suggestion-item--active'
-                  : 'suggestion-item';
+                const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
                 return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                    })}
-                  >
+                  <div {...getSuggestionItemProps(suggestion, {className,})}>
                     <span>{suggestion.description}</span>
                   </div>
                 );
