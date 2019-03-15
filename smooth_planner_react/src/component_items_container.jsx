@@ -7,8 +7,8 @@ import ItemsContainerT from './component_items_container_T';
 import ItemsContainerEmpty from './component_items_empty';
 import ReactModal from 'react-modal';
 import CreateTransport from './component_form_createTransport';
-import CreateAccomodation from './component_form_create_A';
-import CreateEvent from './component_form_create_E';
+import CreateAccomodation from './component_form_createAccomodation';
+import CreateEvent from './component_form_createEvent';
 import RecomendationCard from './component_recomendation';
 
 

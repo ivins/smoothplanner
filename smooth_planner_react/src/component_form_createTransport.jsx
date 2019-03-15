@@ -7,7 +7,6 @@ import "react-datepicker/dist/react-datepicker.css";
 class CreateTransport extends Component {
   constructor(props){
     super(props);
-    //Declare state
     this.state = {
       item_type:'T',
       trip_id: this.props.tripID,
@@ -66,7 +65,6 @@ class CreateTransport extends Component {
     }
   }
  
-
   render() {
     return (
       <div className="create-form-container">
