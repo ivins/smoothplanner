@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 class CreateTrip extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +21,6 @@ class CreateTrip extends Component {
   }
   
   render() {
-   
     return (
       <div className="create-form-container-small">
       <form onSubmit={this.handleSubmit} autocomplete="off">
