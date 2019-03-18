@@ -68,7 +68,6 @@ export default class ItemsContainer extends Component {
   handleCloseModalEEdit = () => {this.setState({ showModalEEdit: false, itemToEdit: {}});}
   handleCloseModalTEdit = () => {this.setState({ showModalTEdit: false, itemToEdit: {}});}
 
-
   areThereAnyRecommendations = () => {
     //  Reset to no recommendations
     this.setState({
@@ -94,19 +93,18 @@ export default class ItemsContainer extends Component {
 
   fetchTripDetails() {
     axios.get(`http://localhost:3001/api/v1/trips/${this.props.match.params.id}.json`)
-        .then(response => {
-          this.setState({
-            cards: response.data.items,
-            current_trip: response.data.trip,
-          });
-          this.areThereAnyRecommendations();
+      .then(response => {
+        this.setState({
+          cards: response.data.items,
+          current_trip: response.data.trip,
+        });
+        this.areThereAnyRecommendations();
       })
       .catch(error => {
         console.log(error)
       })
   }
 
- 
   // calls delete trip method on App
   handle_deleteTrip = () => {
     const check = window.confirm(`Are you sure you want to delete this Trip?`);
@@ -114,7 +112,6 @@ export default class ItemsContainer extends Component {
       this.props.delete_trip(this.state.current_trip);
   }
 
- 
   // delete method which connects to the database and runs destroy method on
   // items_controller to the specific item
   delete_item = (id) => {
@@ -124,7 +121,6 @@ export default class ItemsContainer extends Component {
     })
     .catch(error => console.log(error));
   }
-
 
   //  Adds a new item to the data base on form submitting
   addItem = (data) => {
@@ -183,7 +179,6 @@ export default class ItemsContainer extends Component {
   };
 
   render() {
-    
     // let dateCurrent = moment.utc(this.card[0].time_start).format('MMM Do YYYY');
     let allCards = this.state.cards.map((item) => {
       if (item.item_type === "A") {
@@ -219,7 +214,6 @@ export default class ItemsContainer extends Component {
     }
 
     const tripInfo = this.state.current_trip;
-
 
       return (
         <div className="items_container">
