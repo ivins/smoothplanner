@@ -45,7 +45,6 @@ export default class ItemsContainer extends Component {
   handleCloseModalA = () => {this.setState({ showModalA: false });}
   // Event
   handleOpenModalE = (item) => {
-    // console.log(boolean item,"item")
     this.setState({ 
       showModalE: true, 
       itemToAdd: item || null,
