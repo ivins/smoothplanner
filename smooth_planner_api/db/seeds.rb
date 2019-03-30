@@ -12,12 +12,16 @@
 user1 = User.create({
   name: "Bob Collins",
   email: "bob@user.com",
+  password: "bob",
+  password_confirmation: "bob",
   suggestions: true
 })
 
 user2 = User.create({
   name: "Alice Halpert",
-  email: "alice@user.com"
+  email: "alice@user.com",
+  password: "alice",
+  password_confirmation: "alice"  
 })
 
 

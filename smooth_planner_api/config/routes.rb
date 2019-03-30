@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # get 'tokens/create'
+
   get 'items/index'
 
   get 'trips/index'
@@ -10,6 +12,7 @@ Rails.application.routes.draw do
       resources :users
       resources :items
       resources :trips
+      resources :tokens, only: [:create]
     end
   end
 end

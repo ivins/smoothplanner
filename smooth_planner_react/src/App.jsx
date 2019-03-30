@@ -10,12 +10,17 @@ import Home from './component_home';
 import Landing from './component_landing';
 import image from "./styles/images/amazing-austria-dawn-1323550.jpg"
 import $ from "jquery";
+import jwtDecode from 'jwt-decode';
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      current_user: {name: "Alice", id: 2},
+      // current_user: {name: "Alice", id: 2},
+      current_user: {
+        name: null,
+        id: null
+      },
       trips: [],
       showModalShare: false
     }
@@ -35,45 +40,67 @@ class App extends Component {
 
   // function to ask the database for the user's trips
   populateTrips = (userId) => {
+console.log("user to populate: ", userId);
+    if (userId) {
       axios.get(`http://localhost:3001/api/v1/users/${userId}.json`)
       .then(response => {
+        // window.location = "/";
+console.log("current_tripsBEFORE: ", this.state.trips);        
         this.setState({trips: response.data})
+console.log("trips: ", this.state.trips);
       })
+      .then(() => window.location = "/")
       .catch(error => {
-        console.log(error)
+        console.log("error_populateTrips: ", error)
       })
+    }
   }
 
-  // componentDidMount() {
-componentWillMount() {    
-    if (this.state.current_user) {
+//   componentDidMount() {
+    componentWillMount() {    
+      // componentDidUpdate() {
+// console.log("currentUser: ", this.state.current_user);
+console.log("will mount");
+    // if (this.state.current_user) {
       this.populateTrips(this.state.current_user.id);
     }
     
-  }
 
   delete_trip = (trip) => {
     axios.delete(`http://localhost:3001/api/v1/trips/${trip.id}`, {data: {user: this.state.current_user.id}} )
     .then(response => {
-      window.location = "/"
+      window.location = "/";
       this.setState({trips: response.data});
     })
       .catch(error => console.log(error));
   }
 
   // Fake Auth function to change user btw Bob (1) and Alice(2)
-  changeUser = (id) => {
-    if (id === '1') {
-      this.setState({
-        current_user: {name: "Bob", id: 1}
-      })
-     } else {
-      this.setState({
-        current_user: {name: "Alice", id: 2}
-      })
-    }
-    this.populateTrips(id);
-    
+  changeUser = () => {
+console.log("jwtDecode: ", jwtDecode(window.localStorage.getItem('jwt')));
+const user = jwtDecode(window.localStorage.getItem('jwt'));
+console.log("current_userBEFORE: ", this.state.current_user);
+
+    this.setState({
+      current_user: {
+        name: user.email,
+        id: user.id
+      }
+    });
+console.log("current_userAFTER: ", this.state.current_user);
+    // if (id === '1') {
+    //   this.setState({
+    //     current_user: {name: "Bob", id: 1}
+    //   })
+    //  } else {
+    //   this.setState({
+    //     current_user: {name: "Alice", id: 2}
+    //   })
+    // }
+    this.populateTrips(user.id);
+// console.log("currentUser: ", this.state.current_user);
+    // window.location = "/";
+    this.forceUpdate();
   }
   
   render() {

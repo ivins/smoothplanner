@@ -10,8 +10,8 @@ class CreateAccomodation extends Component {
     this.state = {
       item_type:'A',
       trip_id: this.props.tripID,
-      venue:' ',
-      details:' ',
+      venue:'',
+      details:'',
       confirmation: '',
       address: '',
       url: '',

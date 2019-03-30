@@ -90,8 +90,8 @@ Given that I share my trip with my friends/family
 when they open the trip
 they should be able to view the trip and add/edit/modify itinerary items
 
+#### 8. The app will generate a summary of the trip in a printable format
+As a user
+I want a printable summary of the trip so that I can take the details with me  
+when I do not have access to the internet.
 
-## Stretch 
-
-1. The app will generate a summary of the trip in a printable format
-2. During the trip, I should be able to mark activities that have been completed
