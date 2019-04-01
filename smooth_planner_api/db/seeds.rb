@@ -11,7 +11,7 @@
 # CREATE USER
 user1 = User.create({
   name: "Bob Collins",
-  email: "bob@user.com",
+  email: "bob",
   password: "bob",
   password_confirmation: "bob",
   suggestions: true
@@ -19,7 +19,7 @@ user1 = User.create({
 
 user2 = User.create({
   name: "Alice Halpert",
-  email: "alice@user.com",
+  email: "alice",
   password: "alice",
   password_confirmation: "alice"  
 })

@@ -12,10 +12,6 @@ class Login extends Component {
 
   handlesSubmit = (event) => {
     event.preventDefault();
-console.log("email: ", event.target.email.value);
-console.log("password: ", event.target.password.value);
-    // this.props.addItem(this.state);
-    // this.props.closeModal();
 
     let loginData = new FormData();
     loginData.append("email", event.target.email.value);
@@ -25,17 +21,14 @@ console.log("password: ", event.target.password.value);
     {method: 'POST', mode: 'cors', body: loginData})
     .then(res => res.json())
     .then(res => {
-      // window.location = "/";
-console.log("res.jwt: ", res.jwt);
       this.props.closeModal();
       window.localStorage.setItem('jwt', res.jwt);
-      this.props.startSession();
+      window.location = "/";
     })
-    // .then(() => window.location = '/')
-    // .then(() => this.props.push('/'))
     .catch((error) => {
+      this.props.loginError();
       console.log('There is an error: ', error.message);
-      // this.props.history.push('/error')
+      
     });
 
   }

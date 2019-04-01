@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import $ from "jquery";
-// import { Link } from '../node_modules/react-router-dom';
 import ReactModal from 'react-modal';
 import Signup from './component_signup';
 import Login from './component_login';
-// import jwtDecode from 'jwt-decode';
+import SigninError from './component_login_error';
 
 
 ReactModal.setAppElement('#root');
@@ -15,16 +14,20 @@ export default class Landing extends Component {
     super(props);
     this.state = {
       showSignup: false,
-      showLogin: false
+      showLogin: false,
+      showSigninError: false
     };
   }
+
 
   handleCloseModals = () => {
     this.setState({
       showSignup: false,
-      showLogin: false
+      showLogin: false,
+      showSigninError: false
     });
   }
+
 
   handleSignup = () => {
     this.setState({
@@ -32,23 +35,25 @@ export default class Landing extends Component {
     })
   }
 
+
   handleLogin = () => {
     this.setState({
       showLogin: true
     })
   }
 
+
+  handleLoginError = () => {
+    this.setState({
+      showSigninError: true
+    })
+  }
+
+
   componentDidMount() {
     $("body").css("background-image", "none")
   }
 
-  startSession = () => {
-// console.log("jwtDecode: ", jwtDecode(window.localStorage.getItem('jwt')));
-// const user = jwtDecode(window.localStorage.getItem('jwt'));
-// console.log("user: ", user);
-
-    this.props.changeUser();
-  }
 
   render() {
     return (
@@ -61,16 +66,22 @@ export default class Landing extends Component {
         </div>
 
         <div>
-          {/* SignLogin */}
+          {/* Login */}
           <ReactModal isOpen={this.state.showLogin} contentLabel="onRequestClose Example" onRequestClose={this.handleCloseModals}>
-            <Login closeModal={this.handleCloseModals} startSession={this.startSession}/>
+            <Login closeModal={this.handleCloseModals} loginError={this.handleLoginError}/>
+          </ReactModal>
+        </div>
+
+        <div>
+          {/* Signin Error */}
+          <ReactModal isOpen={this.state.showSigninError} contentLabel="onRequestClose Example"
+            onRequestClose={this.handleCloseModals}>
+            <SigninError closeModal={this.handleCloseModals} />
           </ReactModal>
         </div>
 
         <div className="splash">
           <div className="splash-login">
-            {/* <Link to={'/'}><button type="button" className="btn btn-success" onClick={this.change_user} value={1}>Bob</button></Link>
-            <Link to={'/'}><button type="button" className="btn btn-success" onClick={this.change_user} value={2}>Alice</button></Link> */}
             <button type="button" className="btn btn-success" onClick={this.handleLogin}>Login</button>
 
           </div>

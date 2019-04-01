@@ -16,7 +16,6 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // current_user: {name: "Alice", id: 2},
       current_user: {
         name: null,
         id: null
@@ -29,6 +28,7 @@ class App extends Component {
     this.handleCloseModalShare = this.handleCloseModalShare.bind(this);
   }
 
+
   // Share
   handleOpenModalShare() {
     this.setState({ showModalShare: true });
@@ -38,34 +38,7 @@ class App extends Component {
   }
   
 
-  // function to ask the database for the user's trips
-  populateTrips = (userId) => {
-console.log("user to populate: ", userId);
-    if (userId) {
-      axios.get(`http://localhost:3001/api/v1/users/${userId}.json`)
-      .then(response => {
-        // window.location = "/";
-console.log("current_tripsBEFORE: ", this.state.trips);        
-        this.setState({trips: response.data})
-console.log("trips: ", this.state.trips);
-      })
-      .then(() => window.location = "/")
-      .catch(error => {
-        console.log("error_populateTrips: ", error)
-      })
-    }
-  }
-
-//   componentDidMount() {
-    componentWillMount() {    
-      // componentDidUpdate() {
-// console.log("currentUser: ", this.state.current_user);
-console.log("will mount");
-    // if (this.state.current_user) {
-      this.populateTrips(this.state.current_user.id);
-    }
-    
-
+  //delete user's trip function
   delete_trip = (trip) => {
     axios.delete(`http://localhost:3001/api/v1/trips/${trip.id}`, {data: {user: this.state.current_user.id}} )
     .then(response => {
@@ -75,35 +48,50 @@ console.log("will mount");
       .catch(error => console.log(error));
   }
 
-  // Fake Auth function to change user btw Bob (1) and Alice(2)
-  changeUser = () => {
-console.log("jwtDecode: ", jwtDecode(window.localStorage.getItem('jwt')));
-const user = jwtDecode(window.localStorage.getItem('jwt'));
-console.log("current_userBEFORE: ", this.state.current_user);
 
+  // function to ask the database for the user's trips
+  populateTrips = (userId) => {
+    if (userId) {
+      axios.get(`http://localhost:3001/api/v1/users/${userId}.json`)
+      .then(response => {
+        this.setState({
+            trips: response.data
+        });
+      })
+      .catch(error => {
+        console.log("error_populateTrips: ", error)
+      })
+    }
+  }
+
+
+  // sets the user based in their jwt
+  changeUser = (user) => {
     this.setState({
-      current_user: {
-        name: user.email,
-        id: user.id
-      }
+        current_user: {
+          name: user.email,
+          id: user.id
+        }
     });
-console.log("current_userAFTER: ", this.state.current_user);
-    // if (id === '1') {
-    //   this.setState({
-    //     current_user: {name: "Bob", id: 1}
-    //   })
-    //  } else {
-    //   this.setState({
-    //     current_user: {name: "Alice", id: 2}
-    //   })
-    // }
     this.populateTrips(user.id);
-// console.log("currentUser: ", this.state.current_user);
-    // window.location = "/";
-    this.forceUpdate();
+  }
+
+
+  //logout function
+  quit = () => {
+    window.localStorage.removeItem('jwt');
   }
   
+
   render() {
+
+    if (window.localStorage.getItem('jwt')) {
+      const user = jwtDecode(window.localStorage.getItem('jwt'));
+      if (user.id !== this.state.current_user.id) {
+        this.changeUser(user);
+      }
+    }
+
     if(window.location.pathname === "/landing") {
       return (
             <BrowserRouter>
@@ -127,7 +115,7 @@ console.log("current_userAFTER: ", this.state.current_user);
             <div className="print_share">
             <i onClick={this.handleOpenModalShare} className="fas fa-share-alt fa-2x" title="Share Trip With Another User"></i>
             <a href="javascript:window.print()"><i className="fas fa-print fa-2x" title="Print Preview"></i></a>
-            <a href='/landing'><i className="fas fa-sign-out-alt fa-2x" title="Sign Out"></i></a>
+            <a href='/landing'><i className="fas fa-sign-out-alt fa-2x" title="Sign Out" onClick={this.quit}></i></a>
             </div>
           </nav> 
           <div className="side-bar">
