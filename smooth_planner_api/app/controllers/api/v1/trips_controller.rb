@@ -6,7 +6,6 @@ module Api::V1
     def show
       @trip = Trip.find(params[:id])
       @items = @trip.items.order(:time_start)
-      # puts @items.inspect
       render json: {items: @items, trip: @trip}
     end
 

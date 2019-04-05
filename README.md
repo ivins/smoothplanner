@@ -58,6 +58,7 @@ The app will be useful for business or leisure travellers looking for a simple w
 1. Client Side Setup
   - Run `npm install` in the smooth_planner_react folder
   - set up the .env file as shown in the example
+  - To run server `npm start`
   - Open [http://localhost:3000](http://localhost:3000) to view it in the browser
 
 2. Server Side Setup

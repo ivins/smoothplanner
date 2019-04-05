@@ -24,8 +24,6 @@ module Api::V1
       location = Item.find_by({id: params[:id]}).geo_location
       reco_type = params[:suggestionType]
       query = params[:query]
-      puts reco_type
-      puts query
       @recos = HTTP.get("https://maps.googleapis.com/maps/api/place/textsearch/json?", :params => {
         :query => query,
         :key => Rails.application.secrets.google_api_key,
@@ -38,7 +36,6 @@ module Api::V1
 
     def create
       newitem = Item.new(item_params)
-      puts item_params
       if newitem.save
         @trip = Trip.find(newitem.trip_id)
         @items = @trip.items.order(:time_start)
@@ -49,7 +46,6 @@ module Api::V1
     end
 
     def update
-      puts params
       item_to_update = Item.find(params[:id])
       item_to_update.update(item_params)
       if item_to_update.save
@@ -65,10 +61,8 @@ module Api::V1
     # method to update trip.time_start according to the card(item) deletion
     def reorganizeTripDate
       @trip.update(time_start: @trip.items.order(:time_start).first.time_start) unless @items.empty?
-puts "startDATE: #{@trip.time_start}"
       @trip.update(time_end: (@trip.items.order(:time_end).last.time_end ||
                                                   @trip.items.order(:time_start).last.time_start)) unless @items.empty?
-puts "end_DATE: #{@trip.time_end}"      
     end
  
     

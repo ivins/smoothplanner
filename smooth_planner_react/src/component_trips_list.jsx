@@ -15,7 +15,8 @@ export default class TripsList extends Component {
   handleCloseModalNewTrip = () => {this.setState({ showModalNewTrip: false});}
 
   addTrip = (tripName) => {
-    axios.post('http://localhost:3001/api/v1/trips', {name: tripName, user_id: this.props.currentUser})
+    axios.post('http://localhost:3001/api/v1/trips', {name: tripName, user_id: this.props.currentUser
+  })
     .then(response => {
       window.location = `/trips/${response.data}`
     })
