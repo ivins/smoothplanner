@@ -3,7 +3,7 @@ import $ from "jquery";
 import ReactModal from 'react-modal';
 import Signup from './component_signup';
 import Login from './component_login';
-import SigninError from './component_login_error';
+import LoginError from './component_login_error';
 
 
 ReactModal.setAppElement('#root');
@@ -15,7 +15,7 @@ export default class Landing extends Component {
     this.state = {
       showSignup: false,
       showLogin: false,
-      showSigninError: false
+      showLoginError: false
     };
   }
 
@@ -24,7 +24,7 @@ export default class Landing extends Component {
     this.setState({
       showSignup: false,
       showLogin: false,
-      showSigninError: false
+      showLoginError: false
     });
   }
 
@@ -45,10 +45,17 @@ export default class Landing extends Component {
 
   handleLoginError = () => {
     this.setState({
-      showSigninError: true
+      showLoginError: true
     })
   }
 
+
+  // if success, receives the jwt object
+  handleLoginSuccess = (user) => {
+    console.log("success: ", user)
+    this.handleCloseModals()
+    this.props.changeUser(user)
+  }
 
   componentDidMount() {
     $("body").css("background-image", "none")
@@ -67,16 +74,22 @@ export default class Landing extends Component {
 
         <div>
           {/* Login */}
-          <ReactModal isOpen={this.state.showLogin} contentLabel="onRequestClose Example" onRequestClose={this.handleCloseModals}>
-            <Login closeModal={this.handleCloseModals} loginError={this.handleLoginError}/>
+          <ReactModal isOpen={this.state.showLogin}
+                      contentLabel="onRequestClose Example"
+                      onRequestClose={this.handleCloseModals}>
+            <Login 
+                   closeModal={this.handleCloseModals}
+                   loginError={this.handleLoginError}
+                   loginSuccess={this.handleLoginSuccess}>
+            </Login>
           </ReactModal>
         </div>
 
         <div>
-          {/* Signin Error */}
-          <ReactModal isOpen={this.state.showSigninError} contentLabel="onRequestClose Example"
+          {/* Login Error */}
+          <ReactModal isOpen={this.state.showLoginError} contentLabel="onRequestClose Example"
             onRequestClose={this.handleCloseModals}>
-            <SigninError closeModal={this.handleCloseModals} />
+            <LoginError closeModal={this.handleCloseModals} />
           </ReactModal>
         </div>
 

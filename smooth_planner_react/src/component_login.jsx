@@ -21,14 +21,13 @@ class Login extends Component {
     {method: 'POST', mode: 'cors', body: loginData})
     .then(res => res.json())
     .then(res => {
-      this.props.closeModal();
-      window.localStorage.setItem('jwt', res.jwt);
-      window.location = "/";
+      console.log("res: ", res)
+      this.props.loginSuccess(res.jwt);
+      // window.localStorage.setItem('jwt', res.jwt);
+      // window.location = "/";
     })
     .catch((error) => {
-      this.props.loginError();
-      console.log('There is an error: ', error.message);
-      
+      this.props.loginError();      
     });
 
   }

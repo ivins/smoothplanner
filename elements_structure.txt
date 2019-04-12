@@ -1,0 +1,42 @@
+
+index
+  App
+    .current_user
+    .trips
+    .showModalShare
+    Landing
+      Signup
+      Login
+        .email
+        .password
+      LoginError
+
+    Link (/)
+    TripList
+      Link (trip.id)
+      CreateTrip
+    ItemsContainer
+      .cards
+      .showModalT
+      .showModalA
+      .showModalE
+      .current_trip
+      .showModalAEdit
+      .showModalTEdit
+      .showModalEEdit
+      .itemToEdit
+      .itemToAdd
+      .recommendationsVisible
+      .itemIDForReccomendationR
+      .itemIDForReccomendationP
+      ItemsContainerA
+      ItemsContainerE
+      ItemsContainerT
+      RecommendationCard
+      ItemsContainerEmpty
+      CreateAccomodation
+      CreateEvent
+      CreateTransport
+
+
+

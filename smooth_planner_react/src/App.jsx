@@ -50,14 +50,24 @@ class App extends Component {
 
 
   // function to ask the database for the user's trips
-  populateTrips = (userId) => {
+  populateTrips = (userId, userName) => {
     if (userId) {
       axios.get(`http://localhost:3001/api/v1/users/${userId}.json`)
+      // .then(window.location = "/")
       .then(response => {
+        // window.location = "/";
         this.setState({
-            trips: response.data
+            trips: response.data,
+            current_user: {
+              id: userId,
+              name: userName,
+            }
         });
+        // window.location = "/";
+        console.log("user: ", this.state.current_user, "trips: ", this.state.trips)
       })
+      // .then(window.location = "/")
+      // .then(window.location.reload)
       .catch(error => {
         console.log("error_populateTrips: ", error)
       })
@@ -66,16 +76,36 @@ class App extends Component {
 
 
   // sets the user based in their jwt
-  changeUser = (user) => {
-    this.setState({
-        current_user: {
-          name: user.email,
-          id: user.id
-        }
-    });
-    this.populateTrips(user.id);
+  changeUser = (userReceived) => {
+    const user = jwtDecode(userReceived);
+    // console.log("user: ", user)
+    // this.setState({
+    //     current_user: {
+    //       name: user.email,
+    //       id: user.id
+    //     }
+    // });
+    this.populateTrips(user.id, user.email);
   }
 
+
+  // componentDidUpdate() {
+  //   console.log("componentDIDupdate")
+  //   if (window.localStorage.getItem('jwt')) {
+  //     const user = jwtDecode(window.localStorage.getItem('jwt'));
+  //     if (user.id !== this.state.current_user.id) {
+  //       this.changeUser(user);
+  //     }
+  //   }
+  // }
+
+  // shouldComponentUpdate() {
+  //   console.log('SHOULDcomponentUpdate')
+  // }
+
+  // componentWillUpdate() {
+  //   console.log("componenetWILLupdate")
+  // }
 
   //logout function
   quit = () => {
@@ -84,15 +114,16 @@ class App extends Component {
   
 
   render() {
+console.log("render")
+console.log("trips: ", this.state.trips)
+    // if (window.localStorage.getItem('jwt')) {
+    //   const user = jwtDecode(window.localStorage.getItem('jwt'));
+    //   if (user.id !== this.state.current_user.id) {
+    //     this.changeUser(user);
+    //   }
+    // }
 
-    if (window.localStorage.getItem('jwt')) {
-      const user = jwtDecode(window.localStorage.getItem('jwt'));
-      if (user.id !== this.state.current_user.id) {
-        this.changeUser(user);
-      }
-    }
-
-    if(window.location.pathname === "/landing") {
+    if(window.location.pathname === "/landing" || !this.state.current_user.id) {
       return (
             <BrowserRouter>
             <div className="landing">
