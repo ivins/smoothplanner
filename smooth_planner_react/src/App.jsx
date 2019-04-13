@@ -78,35 +78,37 @@ class App extends Component {
 
   // sets the user based in their jwt
   changeUser = (userReceived) => {
+    // window.location = ""
     const user = jwtDecode(userReceived);
     // console.log("user: ", user)
-    // this.setState({
-    //     current_user: {
-    //       name: user.email,
-    //       id: user.id
-    //     }
-    // });
+    this.setState({
+        current_user: {
+          name: user.email,
+          id: user.id
+        }
+    });
     this.populateTrips(user.id, user.email);
   }
 
 
-  // componentDidUpdate() {
-  //   console.log("componentDIDupdate")
+  componentDidUpdate() {
+    console.log("componentDIDupdate")
   //   if (window.localStorage.getItem('jwt')) {
   //     const user = jwtDecode(window.localStorage.getItem('jwt'));
   //     if (user.id !== this.state.current_user.id) {
   //       this.changeUser(user);
   //     }
   //   }
-  // }
+    if (this.state.current_user != null) {
+      // window.location = "localhost:3000/"
+      console.log("has user")
+    }
+  }
 
   // shouldComponentUpdate() {
   //   console.log('SHOULDcomponentUpdate')
   // }
 
-  // componentWillUpdate() {
-  //   console.log("componenetWILLupdate")
-  // }
 
   //logout function
   quit = () => {
@@ -119,22 +121,21 @@ class App extends Component {
       trips: [],
       showModalShare: false
     });
-
-    window.location = "/landing"
   }
   
 
   render() {
 console.log("render")
-console.log("trips: ", this.state.trips)
+console.log("window.location: ", window.location)
+console.log("trips: ", this.state)
     // if (window.localStorage.getItem('jwt')) {
     //   const user = jwtDecode(window.localStorage.getItem('jwt'));
     //   if (user.id !== this.state.current_user.id) {
     //     this.changeUser(user);
     //   }
     // }
-
-    if((window.location.pathname === "/landing") || (!this.state.current_user.id)) {
+    // alert(window.location)
+    if((window.location.pathname === "/landing") && (!this.state.current_user.id)) {
       return (
             <BrowserRouter>
             <div className="landing">
@@ -177,15 +178,15 @@ console.log("trips: ", this.state.trips)
         </main>
 
         <Route path="/trips/:id" render={(props)=>
-        <div>
-          <ReactModal 
-            isOpen={this.state.showModalShare}
-            contentLabel="onRequestClose Example"
-            onRequestClose={this.handleCloseModalShare}
-          >
-            <Share closeModal={this.handleCloseModalShare} {...props}/>
-          </ReactModal>
-        </div> }/>
+          <div>
+            <ReactModal 
+              isOpen={this.state.showModalShare}
+              contentLabel="onRequestClose Example"
+              onRequestClose={this.handleCloseModalShare}
+            >
+              <Share closeModal={this.handleCloseModalShare} {...props}/>
+            </ReactModal>
+          </div> }/>
         </div>
         </BrowserRouter>
       );
