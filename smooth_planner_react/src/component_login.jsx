@@ -21,7 +21,6 @@ class Login extends Component {
     {method: 'POST', mode: 'cors', body: loginData})
     .then(res => res.json())
     .then(res => {
-      console.log("res: ", res)
       this.props.loginSuccess(res.jwt);
       // window.localStorage.setItem('jwt', res.jwt);
       // window.location = "/";

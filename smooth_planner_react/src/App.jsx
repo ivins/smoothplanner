@@ -45,7 +45,7 @@ class App extends Component {
       window.location = "/";
       this.setState({trips: response.data});
     })
-      .catch(error => console.log(error));
+    .catch(error => console.log(error));
   }
 
 
@@ -55,7 +55,7 @@ class App extends Component {
       axios.get(`http://localhost:3001/api/v1/users/${userId}.json`)
       // .then(window.location = "/")
       .then(response => {
-        // window.location = "/";
+        // window.location.pathname = "/";
         this.setState({
             trips: response.data,
             current_user: {
@@ -65,6 +65,7 @@ class App extends Component {
         });
         // window.location = "/";
         console.log("user: ", this.state.current_user, "trips: ", this.state.trips)
+        console.log("path: ", window.location.pathname)
       })
       // .then(window.location = "/")
       // .then(window.location.reload)
@@ -109,7 +110,17 @@ class App extends Component {
 
   //logout function
   quit = () => {
-    window.localStorage.removeItem('jwt');
+    // window.localStorage.removeItem('jwt');
+    this.setState({
+      current_user: {
+        name: null,
+        id: null
+      },
+      trips: [],
+      showModalShare: false
+    });
+
+    window.location = "/landing"
   }
   
 
@@ -123,7 +134,7 @@ console.log("trips: ", this.state.trips)
     //   }
     // }
 
-    if(window.location.pathname === "/landing" || !this.state.current_user.id) {
+    if((window.location.pathname === "/landing") || (!this.state.current_user.id)) {
       return (
             <BrowserRouter>
             <div className="landing">

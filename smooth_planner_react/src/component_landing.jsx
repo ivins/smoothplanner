@@ -52,7 +52,6 @@ export default class Landing extends Component {
 
   // if success, receives the jwt object
   handleLoginSuccess = (user) => {
-    console.log("success: ", user)
     this.handleCloseModals()
     this.props.changeUser(user)
   }
